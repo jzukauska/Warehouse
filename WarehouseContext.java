@@ -84,11 +84,11 @@ public class WarehouseContext {
     states[3] = Managerstate.instance();
     
     
-    nextState = new int[3][3];
+    nextState = new int[4][3];
     nextState[0][0] = 2;nextState[0][1] = 1;nextState[0][2] = -2;
     nextState[1][0] = 2;nextState[1][1] = 0;nextState[1][2] = -2;
     nextState[2][0] = 0;nextState[2][1] = 1;nextState[2][2] = -1;
-    nextState[3][0] = 0;nextState[3][1] = 1;nextState[3][2] = -2;
+    nextState[3][0] = 2;nextState[3][1] = 1;nextState[3][2] = -2;
     currentState = 2;
   }
 
