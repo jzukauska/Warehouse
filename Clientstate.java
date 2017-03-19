@@ -11,12 +11,10 @@ public class Clientstate extends WarState {
   
   
   private static final int EXIT = 0;
-  private static final int ISSUE_BOOKS = 3;
-  private static final int RENEW_BOOKS = 5;
-  private static final int PLACE_HOLD = 7;
-  private static final int REMOVE_HOLD = 8;
-  private static final int GET_TRANSACTIONS = 10;
-  private static final int HELP = 13;
+  private static final int VIEWACCOUNTDETAIL = 1;
+  private static final int PUTINORDER = 2;
+  private static final int CHECKPRICEOFPRODUCT = 3;
+  private static final int HELP = 4;
   
   
   private Clientstate() {
@@ -62,19 +60,7 @@ public class Clientstate extends WarState {
       }
     } while (true);
   }
-  public Calendar getDate(String prompt) {
-    do {
-      try {
-        Calendar date = new GregorianCalendar();
-        String item = getToken(prompt);
-        DateFormat df = SimpleDateFormat.getDateInstance(DateFormat.SHORT);
-        date.setTime(df.parse(item));
-        return date;
-      } catch (Exception fe) {
-        System.out.println("Please input a date as mm/dd/yy");
-      }
-    } while (true);
-  }
+ 
   public int getCommand() {
     do {
       try {
@@ -89,13 +75,11 @@ public class Clientstate extends WarState {
   }
 
   public void help() {
-    System.out.println("Enter a number between 0 and 12 as explained below:");
+    System.out.println("Enter a number between 0 and 4 as explained below:");
     System.out.println(EXIT + " to Exit\n");
-    System.out.println(ISSUE_BOOKS + " to  issue books to a  member");
-    System.out.println(RENEW_BOOKS + " to  renew books ");
-    System.out.println(PLACE_HOLD + " to  place a hold on a book");
-    System.out.println(REMOVE_HOLD + " to  remove a hold on a book");
-    System.out.println(GET_TRANSACTIONS + " to  print transactions");
+    System.out.println(VIEWACCOUNTDETAIL + " to View Account Details\n");
+    System.out.println(PUTINORDER + " to Place an Order\n");
+    System.out.println(CHECKPRICEOFPRODUCT + " to Check Price of Product");
     System.out.println(HELP + " for help");
   }
 
@@ -107,10 +91,17 @@ public class Clientstate extends WarState {
     help();
     while ((command = getCommand()) != EXIT) {
       switch (command) {
-
-        
-        case HELP:              help();
-                                break;
+      	case HELP: help();
+            break;
+      	case VIEWACCOUNTDETAIL: getClientAccount();
+      		break;
+      	case PUTINORDER: createOrder();
+      		break;
+      	case CHECKPRICEOFPRODUCT: priceCheck();
+      		break;
+      	default:
+      			break;
+      		
       }
     }
     logout();
@@ -134,4 +125,75 @@ public class Clientstate extends WarState {
        (WarehouseContext.instance()).changeState(2); // exit code 2, indicates error
   }
  
+  public void getClientAccount (){
+	  String tempUserAccount = WarehouseContext.instance().getUser();
+	  warehouse.viewClientDetails(tempUserAccount);
+  }
+  
+  private void createOrder() {
+		String tempClient;
+       tempClient = getToken("Enter client id to create order for ");
+		Iterator i = warehouse.getClientIterator();
+
+		while (i.hasNext()) {
+			Client client = (Client) i.next();
+			if (client.equal(tempClient)) {
+				processMatch(tempClient);
+			}else{
+				System.out.println("Couldn't find client to associate");
+			}
+		}
+  	}
+  
+  private void processMatch(String tempClient2){
+	  String productStringId;
+	  Product tempProduct;
+	  int tempQuantity;
+	  boolean addItemsToOrder;
+	  String tempString;
+	  Order createdOrder = new Order();
+	  Order result;
+	  String tempClient = tempClient2;
+	  char cont;
+	  	
+	  do {
+		  	productStringId = getToken("Enter First id of product to be added to the list");
+			tempProduct = warehouse.findProduct(productStringId);
+			if (tempProduct != null) {
+
+				tempQuantity = Integer.parseInt(getToken("Enter the quantity of that item: "));
+
+				addItemsToOrder = createdOrder.insertlistedItem(tempProduct, tempQuantity);
+				if (!addItemsToOrder) {
+					System.out.println("Failed to add item to order");
+
+				} else
+					System.out.println("Added Item");
+
+			} else {
+				System.out.println("Could not find item");
+			}
+
+			tempString = getToken("Continue adding items? Y to continue");
+			cont = tempString.charAt(0);
+		} while (cont == 'y' || cont == 'Y');
+
+		System.out.println("Processing order");
+		result = warehouse.processOrder(createdOrder, tempClient);
+
+		if (result == null) {
+			System.out.println("Could not add order");
+		} else {
+			System.out.println("Added product [" + result + "]");
+		}
+	 	
+  }
+  
+  private void priceCheck(){
+	  String productStringId;
+	  productStringId = getToken("Enter First id of product to search for");
+	  warehouse.priceCheck(productStringId);  
+  }
+	 
+  
 }
