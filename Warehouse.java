@@ -329,7 +329,20 @@ public class Warehouse implements Serializable {
 		return tempClient;
 	}
 	
+<<<<<<< HEAD
 	
 
 	
+=======
+	public void viewClientDetails(String userID) {
+        Client tempClient;
+        tempClient = clientList.findParticularClient(userID);
+        System.out.println(tempClient);
+    }
+	
+	public void priceCheck(String productID){
+		Product tempProduct = inventory.find(productID);
+		System.out.println(tempProduct.getCost());
+	}
+>>>>>>> refs/remotes/origin/master
 }
