@@ -33,7 +33,7 @@ public class Loginstate extends WarState{
     do {
       try {
         int value = Integer.parseInt(getToken("Enter command:" ));
-        if (value <= EXIT && value >= CLERK_LOGIN) {
+        if (value <= Manager_Login && value >= CLERK_LOGIN) {
           return value;
         }
       } catch (NumberFormatException nfe) {
@@ -83,14 +83,16 @@ public class Loginstate extends WarState{
   private void manager(){
 	  
 	  (WarehouseContext.instance()).setLogin(WarehouseContext.IsManager);
-	    (WarehouseContext.instance()).changeState(0);
+	    (WarehouseContext.instance()).changeState(3);
   }
 
   public void process() {
     int command;
-    System.out.println("Please input 0 to login as Clerk\n"+ 
-                        "input 1 to login as user\n" +
-                        "input 2 to exit the system\n");     
+    System.out.println("Input: \n0 to login as Clerk\n"+ 
+                        "1 to login as user\n" +
+                        
+                        "2 to exit the system\n" +
+                        "3 to login as manager");     
     while ((command = getCommand()) != EXIT) {
 
       switch (command) {
@@ -99,12 +101,15 @@ public class Loginstate extends WarState{
         case USER_LOGIN:        user();
                                 break;
         case Manager_Login:     manager();
+        						break;
         default:                System.out.println("Invalid choice");
                                 
       }
-      System.out.println("Please input 0 to login as Clerk\n"+ 
-                        "input 1 to login as user\n" +
-                        "input 2 to login as manager\n"); 
+      System.out.println("Input: \n0 to login as Clerk\n"+ 
+              "1 to login as user\n" +
+              
+              "2 to exit the system\n" +
+              "3 to login as manager"); 
     }
     (WarehouseContext.instance()).changeState(2);
   }
