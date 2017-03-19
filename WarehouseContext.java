@@ -43,6 +43,7 @@ public class WarehouseContext {
   }*/
 
   private void retrieve() {
+	  
 		try {
 			Warehouse newWarehouse = Warehouse.load();
 
@@ -84,23 +85,23 @@ public class WarehouseContext {
     states[3] = Managerstate.instance();
     
     
-    nextState = new int[4][3];
-    nextState[0][0] = 2;nextState[0][1] = 1;nextState[0][2] = -2;
-    nextState[1][0] = 2;nextState[1][1] = 0;nextState[1][2] = -2;
-    nextState[2][0] = 0;nextState[2][1] = 1;nextState[2][2] = -1;
-    nextState[3][0] = 2;nextState[3][1] = 1;nextState[3][2] = -2;
+    nextState = new int[4][4];
+    nextState[0][0] = 2;nextState[0][1] = 1;nextState[0][2] = -2;nextState[0][3] = 3;
+    nextState[1][0] = 2;nextState[1][1] = 0;nextState[1][2] = -2;nextState[1][3] = -2;
+    nextState[2][0] = 0;nextState[2][1] = 1;nextState[2][2] = -1;nextState[0][3] = 3;
+    nextState[3][0] = 2;nextState[3][1] = -2;nextState[3][2] = 2;nextState[0][3] = -1;
     currentState = 2;
   }
 
   public void changeState(int transition)
   {
-    //System.out.println("current state " + currentState + " \n \n ");
+    System.out.println("current state " + currentState + " \n \n ");
     currentState = nextState[currentState][transition];
     if (currentState == -2) 
       {System.out.println("Error has occurred"); terminate();}
     if (currentState == -1) 
       terminate();
-    //System.out.println("current state " + currentState + " \n \n ");
+    System.out.println("current state " + currentState + " \n \n ");
     states[currentState].run();
   }
 
