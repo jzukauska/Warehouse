@@ -328,4 +328,15 @@ public class Warehouse implements Serializable {
 		Client tempClient = clientList.findParticularClient(userID);
 		return tempClient;
 	}
+	
+	public void viewClientDetails(String userID) {
+        Client tempClient;
+        tempClient = clientList.findParticularClient(userID);
+        System.out.println(tempClient);
+    }
+	
+	public void priceCheck(String productID){
+		Product tempProduct = inventory.find(productID);
+		System.out.println(tempProduct.getCost());
+	}
 }
