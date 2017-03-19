@@ -100,98 +100,7 @@ public class Managerstate extends WarState {
   }
 
 
-  public void issueBooks() {
-    Book result;
-    String memberID = LibContext.instance().getUser();
-    do {
-      String bookID = getToken("Enter book id");
-      result = warehouse.issueBook(memberID, bookID);
-      if (result != null){
-        System.out.println(result.getTitle()+ "   " +  result.getDueDate());
-      } else {
-          System.out.println("Book could not be issued");
-      }
-      if (!yesOrNo("Issue more books?")) {
-        break;
-      }
-    } while (true);
-  }
-
-  public void renewBooks() {
-    Book result;
-    String memberID = LibContext.instance().getUser();
-    Iterator issuedBooks = warehouse.getBooks(memberID);
-    while (issuedBooks.hasNext()){
-      Book book = (Book)(issuedBooks.next());
-      if (yesOrNo(book.getTitle())) {
-        result = warehouse.renewBook(book.getId(), memberID);
-        if (result != null){
-          System.out.println(result.getTitle()+ "   " + result.getDueDate());
-        } else {
-          System.out.println("Book is not renewable");
-        }
-      }
-    }
-  }
-
-
-  public void placeHold() {
-    String memberID = LibContext.instance().getUser();
-    String bookID = getToken("Enter book id");
-    int duration = getNumber("Enter duration of hold");
-    int result = warehouse.placeHold(memberID, bookID, duration);
-    switch(result){
-      case Warehouse.BOOK_NOT_FOUND:
-        System.out.println("No such Book in Library");
-        break;
-      case Warehouse.BOOK_NOT_ISSUED:
-        System.out.println(" Book is not checked out");
-        break;
-      case Warehouse.NO_SUCH_MEMBER:
-        System.out.println("Not a valid member ID");
-        break;
-      case Warehouse.HOLD_PLACED:
-        System.out.println("A hold has been placed");
-        break;
-      default:
-        System.out.println("An error has occurred");
-    }
-  }
-
-  public void removeHold() {
-    String memberID = LibContext.instance().getUser();
-    String bookID = getToken("Enter book id");
-    int result = warehouse.removeHold(memberID, bookID);
-    switch(result){
-      case Warehouse.BOOK_NOT_FOUND:
-        System.out.println("No such Book in Library");
-        break;
-      case Warehouse.NO_SUCH_MEMBER:
-        System.out.println("Not a valid member ID");
-        break;
-      case Warehouse.OPERATION_COMPLETED:
-        System.out.println("The hold has been removed");
-        break;
-      default:
-        System.out.println("An error has occurred");
-    }
-  }
-
-  public void getTransactions() {
-    Iterator result;
-    String memberID = LibContext.instance().getUser();
-    Calendar date  = getDate("Please enter the date for which you want records as mm/dd/yy");
-    result = warehouse.getTransactions(memberID,date);
-    if (result == null) {
-      System.out.println("Invalid Member ID");
-    } else {
-      while(result.hasNext()) {
-        Transaction transaction = (Transaction) result.next();
-        System.out.println(transaction.getType() + "   "   + transaction.getTitle() + "\n");
-      }
-      System.out.println("\n  There are no more transactions \n" );
-    }
-  }
+  
 
   public void process() {
     int command;
@@ -199,16 +108,7 @@ public class Managerstate extends WarState {
     while ((command = getCommand()) != EXIT) {
       switch (command) {
 
-        case ISSUE_BOOKS:       issueBooks();
-                                break;
-        case RENEW_BOOKS:       renewBooks();
-                                break;
-        case PLACE_HOLD:        placeHold();
-                                break;
-        case REMOVE_HOLD:       removeHold();
-                                break;
-        case GET_TRANSACTIONS:  getTransactions();
-                                break;
+       
         case HELP:              help();
                                 break;
       }
@@ -222,16 +122,7 @@ public class Managerstate extends WarState {
 
   public void logout()
   {
-    if ((LibContext.instance()).getLogin() == LibContext.IsClerk)
-       { //stem.out.println(" going to clerk \n ");
-         (LibContext.instance()).changeState(1); // exit with a code 1
-        }
-    else if (LibContext.instance().getLogin() == LibContext.IsUser)
-       {  //stem.out.println(" going to login \n");
-        (LibContext.instance()).changeState(0); // exit with a code 2
-       }
-    else 
-       (LibContext.instance()).changeState(2); // exit code 2, indicates error
+	  (WarehouseContext.instance()).changeState(0); // exit with a code 0
   }
  
 }

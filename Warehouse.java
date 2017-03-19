@@ -322,4 +322,10 @@ public class Warehouse implements Serializable {
 			System.out.println(ioe);
 		}
 	}
+
+	public Client searchMembership(String userID) {
+		
+		Client tempClient = clientList.findParticularClient(userID);
+		return tempClient;
+	}
 }

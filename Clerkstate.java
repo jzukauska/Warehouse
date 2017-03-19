@@ -111,110 +111,7 @@ public class Clerkstate extends WarState {
     System.out.println(HELP + " for help");
   }
 
-  public void addMember() {
-    String name = getToken("Enter member name");
-    String address = getToken("Enter address");
-    String phone = getToken("Enter phone");
-    Member result;
-    result = warehouse.addMember(name, address, phone);
-    if (result == null) {
-      System.out.println("Could not add member");
-    }
-    System.out.println(result);
-  }
 
-  public void addBooks() {
-    Book result;
-    do {
-      String title = getToken("Enter  title");
-      String bookID = getToken("Enter id");
-      String author = getToken("Enter author");
-      result = warehouse.addBook(title, author, bookID);
-      if (result != null) {
-        System.out.println(result);
-      } else {
-        System.out.println("Book could not be added");
-      }
-      if (!yesOrNo("Add more books?")) {
-        break;
-      }
-    } while (true);
-  }
- 
-  public void returnBooks() {
-    int result;
-    do {
-      String bookID = getToken("Enter book id");
-      result = warehouse.returnBook(bookID);
-      switch(result) {
-        case Warehouse.BOOK_NOT_FOUND:
-          System.out.println("No such Book in Library");
-          break;
-        case Warehouse.BOOK_NOT_ISSUED:
-          System.out.println(" Book  was not checked out");
-          break;
-        case Warehouse.BOOK_HAS_HOLD:
-          System.out.println("Book has a hold");
-          break;
-        case Warehouse.OPERATION_FAILED:
-          System.out.println("Book could not be returned");
-          break;
-        case Warehouse.OPERATION_COMPLETED:
-          System.out.println(" Book has been returned");
-          break;
-        default:
-          System.out.println("An error has occurred");
-      }
-      if (!yesOrNo("Return more books?")) {
-        break;
-      }
-    } while (true);
-  }
-  public void removeBooks() {
-    int result;
-    do {
-      String bookID = getToken("Enter book id");
-      result = warehouse.removeBook(bookID);
-      switch(result){
-        case Warehouse.BOOK_NOT_FOUND:
-          System.out.println("No such Book in Library");
-          break;
-        case Warehouse.BOOK_ISSUED:
-          System.out.println(" Book is currently checked out");
-          break;
-        case Warehouse.BOOK_HAS_HOLD:
-          System.out.println("Book has a hold");
-          break;
-        case Warehouse.OPERATION_FAILED:
-          System.out.println("Book could not be removed");
-          break;
-        case Warehouse.OPERATION_COMPLETED:
-          System.out.println(" Book has been removed");
-          break;
-        default:
-          System.out.println("An error has occurred");
-      }
-      if (!yesOrNo("Remove more books?")) {
-        break;
-      }
-    } while (true);
-  }
-
-  public void processHolds() {
-    Member result;
-    do {
-      String bookID = getToken("Enter book id");
-      result = warehouse.processHold(bookID);
-      if (result != null) {
-        System.out.println(result);
-      } else {
-        System.out.println("No valid holds left");
-      }
-      if (!yesOrNo("Process more books?")) {
-        break;
-      }
-    } while (true);
-  }
 
   public void usermenu()
   {
@@ -238,18 +135,7 @@ public class Clerkstate extends WarState {
     help();
     while ((command = getCommand()) != EXIT) {
       switch (command) {
-        case ADD_MEMBER:        addMember();
-                                break;
-        case ADD_BOOKS:         addBooks();
-                                break;
-        case RETURN_BOOKS:      returnBooks();
-                                break;
-        case REMOVE_BOOKS:      removeBooks();
-                                break;
-        case PROCESS_HOLD:      processHolds();
-                                break;
-        case USERMENU:          usermenu();
-                                break;
+      
         case HELP:              help();
                                 break;
       }

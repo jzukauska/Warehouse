@@ -10,9 +10,10 @@ import java.io.*;
 public class Loginstate extends WarState{
   private static final int CLERK_LOGIN = 0;
   private static final int USER_LOGIN = 1;
+  private static final int Manager_Login = 3;
   private static final int EXIT = 2;
   private BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));  
-  private LibContext context;
+  private WarehouseContext context;
   private static Loginstate instance;
   
   
@@ -65,20 +66,25 @@ public class Loginstate extends WarState{
   }
 
   private void clerk(){
-    (LibContext.instance()).setLogin(LibContext.IsClerk);
-    (LibContext.instance()).changeState(0);
+    (WarehouseContext.instance()).setLogin(WarehouseContext.IsClerk);
+    (WarehouseContext.instance()).changeState(0);
   }
 
   private void user(){
     String userID = getToken("Please input the user id: ");
-    if (Library.instance().searchMembership(userID) != null){
-      (LibContext.instance()).setLogin(LibContext.IsUser);
-      (LibContext.instance()).setUser(userID);      
-      (LibContext.instance()).changeState(1);
+    if (Warehouse.instance().searchMembership(userID) != null){
+      (WarehouseContext.instance()).setLogin(WarehouseContext.IsClient);
+      (WarehouseContext.instance()).setUser(userID);      
+      (WarehouseContext.instance()).changeState(1);
     }
     else 
       System.out.println("Invalid user id.");
   } 
+  private void manager(){
+	  
+	  (WarehouseContext.instance()).setLogin(WarehouseContext.IsManager);
+	    (WarehouseContext.instance()).changeState(0);
+  }
 
   public void process() {
     int command;
@@ -92,14 +98,15 @@ public class Loginstate extends WarState{
                                 break;
         case USER_LOGIN:        user();
                                 break;
+        case Manager_Login:     manager();
         default:                System.out.println("Invalid choice");
                                 
       }
       System.out.println("Please input 0 to login as Clerk\n"+ 
                         "input 1 to login as user\n" +
-                        "input 2 to exit the system\n"); 
+                        "input 2 to login as manager\n"); 
     }
-    (LibContext.instance()).changeState(2);
+    (WarehouseContext.instance()).changeState(2);
   }
 
   public void run() {
