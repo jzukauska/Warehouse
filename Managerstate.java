@@ -5,7 +5,7 @@ import java.util.*;
 import java.text.*;
 import java.io.*;
 public class Managerstate extends WarState {
-  private static Managerstate clientstate;
+  private static Managerstate managerstate;
   private BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
   private static Warehouse warehouse;
   
@@ -24,10 +24,10 @@ public class Managerstate extends WarState {
   }
 
   public static Managerstate instance() {
-    if (clientstate == null) {
-      return clientstate = new Managerstate();
+    if (managerstate == null) {
+      return managerstate = new Managerstate();
     } else {
-      return clientstate;
+      return managerstate;
     }
   }
   public String getToken(String prompt) {

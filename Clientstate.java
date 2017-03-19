@@ -62,19 +62,7 @@ public class Clientstate extends WarState {
       }
     } while (true);
   }
-  public Calendar getDate(String prompt) {
-    do {
-      try {
-        Calendar date = new GregorianCalendar();
-        String item = getToken(prompt);
-        DateFormat df = SimpleDateFormat.getDateInstance(DateFormat.SHORT);
-        date.setTime(df.parse(item));
-        return date;
-      } catch (Exception fe) {
-        System.out.println("Please input a date as mm/dd/yy");
-      }
-    } while (true);
-  }
+
   public int getCommand() {
     do {
       try {
@@ -123,15 +111,26 @@ public class Clientstate extends WarState {
   public void logout()
   {
     if ((WarehouseContext.instance()).getLogin() == WarehouseContext.IsClerk)
-       { //stem.out.println(" going to clerk \n ");
+       { System.out.println(" going to clerk \n ");
          (WarehouseContext.instance()).changeState(1); // exit with a code 1
         }
     else if (WarehouseContext.instance().getLogin() == WarehouseContext.IsManager)
-       {  //stem.out.println(" going to login \n");
+       {  System.out.println(" going to login \n");
         (WarehouseContext.instance()).changeState(0); // exit with a code 2
        }
     else 
        (WarehouseContext.instance()).changeState(2); // exit code 2, indicates error
   }
+  
+  public void getClient(){
+	  
+	 Client tempClient;
+	  
+	  tempClient = warehouse.searchMembership( WarehouseContext.instance().getUser());
+	  
+	  System.out.println(tempClient);
+  }
+  
+  
  
 }
