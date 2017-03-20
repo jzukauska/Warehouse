@@ -27,6 +27,7 @@ public class UserInterface {
 	private static final int HELP = 11;
 	private static final int addOrder = 12;
 	private static final int acceptClientPayment = 13;
+	
 	private static final int showWaitlistedOrders = 14;
 	private static final int listunpaidBalance = 15;
 	private static final int listOrdersAndwaitLists = 16;

@@ -330,6 +330,25 @@ public class Warehouse implements Serializable {
 	}
 	
 	
+<<<<<<< HEAD
 
 	
+=======
+	public void priceCheck(String productID){
+		Product tempProduct = inventory.find(productID);
+		System.out.println(tempProduct.getCost());
+	}
+
+	public void displayClients() {
+		System.out.println(clientList);
+	}
+
+	public void displayProducts() {
+		System.out.println(inventory);
+	}
+
+	public void displayManufacturers() {
+		System.out.println(manufacturerList);
+	}
+>>>>>>> refs/remotes/origin/master
 }
