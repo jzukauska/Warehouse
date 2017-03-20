@@ -330,10 +330,7 @@ public class Warehouse implements Serializable {
 	}
 	
 	
-<<<<<<< HEAD
 
-	
-=======
 	public void priceCheck(String productID){
 		Product tempProduct = inventory.find(productID);
 		System.out.println(tempProduct.getCost());
@@ -350,5 +347,17 @@ public class Warehouse implements Serializable {
 	public void displayManufacturers() {
 		System.out.println(manufacturerList);
 	}
->>>>>>> refs/remotes/origin/master
+
+	public boolean changePrice(String productName, double newPrice) {
+		Product tempProduct;
+		tempProduct = findProduct(productName);
+		
+		if (tempProduct != null) {
+			tempProduct.setCost(newPrice);
+			return true;
+		}
+		
+		return false;
+	}
+
 }
