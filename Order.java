@@ -71,7 +71,7 @@ public class Order implements Serializable {
 		while (iterate.hasNext()) {
 			OrderLineItem object = (OrderLineItem) iterate.next();
 
-			if (object.product.equals(product)) {
+			if (object.product.equals(product) && object.quantity > 0) {
 				System.out.println("Order " + id + " is waiting for " + object.quantity + ": " + product.getName());
 
 			}
