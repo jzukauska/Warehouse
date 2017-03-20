@@ -138,7 +138,13 @@ public class Clerkstate extends WarState {
 
 	public void logout()
 	{
-		(WarehouseContext.instance()).changeState(0); // exit with a code 0
+		 if (WarehouseContext.instance().getLogin() == WarehouseContext.IsManager) {
+		      WarehouseContext.instance().changeState(3);
+		    } else if ((WarehouseContext.instance()).getLogin() == WarehouseContext.IsClerk) {
+		      WarehouseContext.instance().changeState(0); // exit with a code 0
+		    } else {
+		      WarehouseContext.instance().changeState(2); // exit code 2, indicates error
+		    }
 	}
 
 

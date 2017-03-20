@@ -5,6 +5,10 @@ import java.util.*;
 import java.text.*;
 import java.io.*;
 public class Clientstate extends WarState {
+
+  
+ 
+
 	private static Clientstate clientstate;
 	private BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
 	private static Warehouse warehouse;
@@ -119,15 +123,15 @@ public class Clientstate extends WarState {
 		}
 		else if (WarehouseContext.instance().getLogin() == WarehouseContext.IsManager)
 		{  //stem.out.println(" going to login \n");
-			(WarehouseContext.instance()).changeState(0); // exit with a code 2
+			(WarehouseContext.instance()).changeState(3); // exit with a code 2
 		}
 		else 
 			(WarehouseContext.instance()).changeState(2); // exit code 2, indicates error
 	}
 
 	public void getClientAccount (){
-		String tempUserAccount = WarehouseContext.instance().getUser();
-		warehouse.viewClientDetails(tempUserAccount);
+		Client tempUserAccount = warehouse.searchMembership(WarehouseContext.instance().getUser());
+		System.out.println(tempUserAccount);
 	}
 
 	private void createOrder() {
@@ -191,6 +195,7 @@ public class Clientstate extends WarState {
 		productStringId = getToken("Enter First id of product to search for");
 		warehouse.priceCheck(productStringId);  
 	}
+
 
 
 }
