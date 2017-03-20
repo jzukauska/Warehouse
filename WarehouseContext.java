@@ -41,7 +41,10 @@ public class WarehouseContext {
     }
     return true;
   }*/
-
+  public void load(){
+	  retrieve();
+	  
+  }
   private void retrieve() {
 	  
 		try {
