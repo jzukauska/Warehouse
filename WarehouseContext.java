@@ -87,8 +87,8 @@ public class WarehouseContext {
     states[2]=  Loginstate.instance();
     states[3] = Managerstate.instance();
     states[4] = Securitystate.instance();
-   // states[5] = Orderstate.instance();
-   // states[6] = Recievestate.instance();
+    states[5] = OrderState.instance();
+    states[6] = ReceiveOrderState.instance();
 
     nextState = new int[7][7];
     for (int i = 0; i < nextState.length; i++) {
@@ -98,11 +98,12 @@ public class WarehouseContext {
 		
 	}
     
-    nextState[0][0] = 2;nextState[0][1] = 1;nextState[0][2] = -2;nextState[0][3] = 3;
+    nextState[0][0] = 2;nextState[0][1] = 1;nextState[0][2] = -2;nextState[0][3] = 3;nextState[0][5] = 5;nextState[0][6] = 6;
     nextState[1][0] = 2;nextState[1][1] = 0;nextState[1][2] = -2;nextState[1][3] = 3;
     nextState[2][0] = 0;nextState[2][1] = 1;nextState[2][2] = -1;nextState[2][3] = 3;
     nextState[3][0] = 0;nextState[3][1] = -2;nextState[3][2] = 2;nextState[3][3] = -1;nextState[3][4] = 4;    
-    //
+    nextState[5][0] = 0;
+    nextState[6][0] = 0;//
     
     nextState[4][3] = 3; 
     currentState = 2;
