@@ -75,4 +75,9 @@ public class ManufacturerList implements Serializable {
 		}
 	}
 
+	@Override
+	public String toString() {
+		return "ManufacturerList [manufacturers=" + manufacturers + "]";
+	}
+
 }
