@@ -62,8 +62,21 @@ public class Managerstate extends WarState {
 			}
 		} while (true);
 	}
-	
+
 	public int getCommand() {
+		int trycount = 0;
+
+
+		while (!Securitystate.instance().isLocked() ){
+			WarehouseContext.instance().changeState(4);
+			trycount++;
+
+			if (trycount > 5) {
+				System.out.println("Too many tries, logging out");
+				logout();
+			}
+		}
+		
 		do {
 			try {
 
@@ -96,31 +109,16 @@ public class Managerstate extends WarState {
 	public void process() {
 		int command;
 		System.out.println("Please login before making choice");
-		int trycount = 0;
+		
+
+			help();
 
 		
-		while (!Securitystate.instance().isLocked() ){
-			WarehouseContext.instance().changeState(4);
-			trycount++;
-			
-			if (trycount > 5) {
-				System.out.println("Too many tries, logging out");
-				logout();
-			}
-		
-		help();
-
-		
-		
-		command = getCommand();
-
-		while (command  != EXIT) {
-			
 
 			
-			
-			
-			
+
+			while ((command = getCommand())  != EXIT) {
+
 				switch (command) {
 
 				case addManufacturer: addManufacturer(); break;
@@ -133,106 +131,106 @@ public class Managerstate extends WarState {
 				break;
 				}
 				Securitystate.instance().reLock();
-		}
-
-		
-		logout();
-	}
-
-	private void makeClerk() {
-		WarehouseContext.instance().changeState(0);
-	}
-
-	private void changePrice() {
-
-		String productName = getToken("Enter product id to change price for");
-		double newPrice = getNumber("Enter new price for the item");
-
-		if (warehouse.changePrice(productName, newPrice)) {
-			System.out.println("Change successful");
-
-		}
-		else{
-			System.out.println("Failed to change price");
-
-		}
 
 
-	}
-
-	private void disassociateProdandMan() {
-		String manufacturerId;
-		Manufacturer manufacturer;
-		String productId;
-		Product product;
-
-		do {
-			manufacturerId = getToken("Enter manufacturer id");
-			manufacturer = warehouse.findManufacturer(manufacturerId);
-
-			if (manufacturer == null) {
-				System.out.println("Invalid manufacturer id, please try again.");
 			}
-		} while (manufacturer == null);
-
-		do {
-			productId = getToken("Enter product id");
-			product = warehouse.findProduct(productId);
-
-			if (product == null) {
-				System.out.println("Invalid product id, please try again.");
+				logout();
 			}
-		} while (product == null);
 
-		product = warehouse.disassociateProductAndManufacturer(productId, manufacturerId);
-		System.out.println("Disassociate complete between product:" + product + " and manufacturer:" + manufacturer);
-	}
-
-	private void associateProdandMan() {
-		String manuId;
-		Manufacturer manufacturer;
-		String productId;
-		Product product;
-
-		do {
-			manuId = getToken("Enter manufacturer id");
-			manufacturer = warehouse.findManufacturer(manuId);
-
-			if (manufacturer == null) {
-				System.out.println("Invalid manufacturer id, enter new id.");
+			private void makeClerk() {
+				WarehouseContext.instance().changeState(0);
 			}
-		} while (manufacturer == null);
 
-		do {
-			productId = getToken("Enter product id");
-			product = warehouse.findProduct(productId);
+			private void changePrice() {
 
-			if (product == null) {
-				System.out.println("Invalid product id, please try again.");
+				String productName = getToken("Enter product id to change price for");
+				double newPrice = getNumber("Enter new price for the item");
+
+				if (warehouse.changePrice(productName, newPrice)) {
+					System.out.println("Change successful");
+
+				}
+				else{
+					System.out.println("Failed to change price");
+
+				}
+
+
 			}
-		} while (product == null);
 
-		product = warehouse.associateProductAndManufacturer(productId, manuId);
-		System.out.println("Associated: " + product + " and manufacturer:" + manufacturer);
-	}
+			private void disassociateProdandMan() {
+				String manufacturerId;
+				Manufacturer manufacturer;
+				String productId;
+				Product product;
 
-	private void addManufacturer() {
-		String name = getToken("Enter manufacturer name");
-		Manufacturer result;
-		result = warehouse.addManufacturer(name);
-		if (result == null) {
-			System.out.println("Could not add manufacturer");
+				do {
+					manufacturerId = getToken("Enter manufacturer id");
+					manufacturer = warehouse.findManufacturer(manufacturerId);
+
+					if (manufacturer == null) {
+						System.out.println("Invalid manufacturer id, please try again.");
+					}
+				} while (manufacturer == null);
+
+				do {
+					productId = getToken("Enter product id");
+					product = warehouse.findProduct(productId);
+
+					if (product == null) {
+						System.out.println("Invalid product id, please try again.");
+					}
+				} while (product == null);
+
+				product = warehouse.disassociateProductAndManufacturer(productId, manufacturerId);
+				System.out.println("Disassociate complete between product:" + product + " and manufacturer:" + manufacturer);
+			}
+
+			private void associateProdandMan() {
+				String manuId;
+				Manufacturer manufacturer;
+				String productId;
+				Product product;
+
+				do {
+					manuId = getToken("Enter manufacturer id");
+					manufacturer = warehouse.findManufacturer(manuId);
+
+					if (manufacturer == null) {
+						System.out.println("Invalid manufacturer id, enter new id.");
+					}
+				} while (manufacturer == null);
+
+				do {
+					productId = getToken("Enter product id");
+					product = warehouse.findProduct(productId);
+
+					if (product == null) {
+						System.out.println("Invalid product id, please try again.");
+					}
+				} while (product == null);
+
+				product = warehouse.associateProductAndManufacturer(productId, manuId);
+				System.out.println("Associated: " + product + " and manufacturer:" + manufacturer);
+			}
+
+			private void addManufacturer() {
+				String name = getToken("Enter manufacturer name");
+				Manufacturer result;
+				result = warehouse.addManufacturer(name);
+				if (result == null) {
+					System.out.println("Could not add manufacturer");
+				}
+				System.out.println("Added manufacturer [" + result + "]");
+			}
+
+			public void run() {
+				process();
+			}
+
+			public void logout()
+			{
+				WarehouseContext.instance().changeState(2); // exit with a code 0
+			}
+
 		}
-		System.out.println("Added manufacturer [" + result + "]");
-	}
-
-	public void run() {
-		process();
-	}
-
-	public void logout()
-	{
-		WarehouseContext.instance().changeState(2); // exit with a code 0
-	}
-
-}
