@@ -17,7 +17,7 @@ public class Managerstate extends WarState {
   private static final int changePrice = 8;
   private static final int makeClerk = 10;
   private static final int HELP = 13;
-  
+
   
   private Managerstate() {
     warehouse = Warehouse.instance();
@@ -78,6 +78,7 @@ public class Managerstate extends WarState {
   public int getCommand() {
     do {
       try {
+    	  
         int value = Integer.parseInt(getToken("Enter command:" + HELP + " for help"));
         if (value >= EXIT && value <= HELP) {
           return value;
@@ -85,6 +86,8 @@ public class Managerstate extends WarState {
       } catch (NumberFormatException nfe) {
         System.out.println("Enter a number");
       }
+      
+      
     } while (true);
   }
 
@@ -105,6 +108,9 @@ public class Managerstate extends WarState {
   public void process() {
     int command;
     help();
+    
+    if !WarehouseContext.instance().
+    
     while ((command = getCommand()) != EXIT) {
       switch (command) {
 
