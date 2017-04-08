@@ -109,8 +109,6 @@ public class Managerstate extends WarState {
     int command;
     help();
     
-    if !WarehouseContext.instance().
-    
     while ((command = getCommand()) != EXIT) {
       switch (command) {
 

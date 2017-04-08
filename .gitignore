@@ -21,3 +21,5 @@
 /WarehouseContext.class
 /orderTester.class
 /Securitystate.class
+/OrderState.class
+/ReceiveOrderState.class
