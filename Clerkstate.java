@@ -11,7 +11,7 @@ public class Clerkstate extends WarState {
 	private BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
 	private static Warehouse warehouse;
 	private WarehouseContext context;
-	private OrderState order;
+
 
 	private static Clerkstate instance;
 
@@ -23,6 +23,7 @@ public class Clerkstate extends WarState {
 	private static final int showProducts = 4;
 	private static final int showManufacturers = 6;
 
+
 	private static final int recieveOrder = 7;
 	private static final int recievePayment = 8;
 	private static final int showWaitlistedOrders = 9;
@@ -30,6 +31,9 @@ public class Clerkstate extends WarState {
 	private static final int makeOrderForClient= 11;
 	private static final int makeClient = 12;
 	private static final int loadDatabase = 13;
+
+
+
 
 	private static final int HELP = 99;
 
@@ -61,7 +65,6 @@ public class Clerkstate extends WarState {
 			}
 		} while (true);
 	}
-	
 	private boolean yesOrNo(String prompt) {
 		String more = getToken(prompt + " (Y|y)[es] or anything else for no");
 		if (more.charAt(0) != 'y' && more.charAt(0) != 'Y') {
@@ -168,7 +171,7 @@ public class Clerkstate extends WarState {
 				showManufacturers();
 				break;
 			case recieveOrder:
-				WarehouseContext.instance().changeState(6);
+				recieveOrder();
 				break;
 			case recievePayment:
 				recievePayment();
@@ -177,7 +180,7 @@ public class Clerkstate extends WarState {
 				showWaitlistedOrders();
 				break;
 			case makeOrderForClient:
-				WarehouseContext.instance().changeState(5);
+				makeOrderForClient();
 				break;
 			case makeClient:
 				makeClient();
@@ -227,7 +230,19 @@ public class Clerkstate extends WarState {
 		warehouse.displayManufacturers();
 	}
 
-	
+	private void recieveOrder() {
+		String productName;
+		productName = getToken("Enter Product id to recieve");
+
+		if (warehouse.findProduct(productName) != null) {
+			String productQuantity = getToken("Enter amount to receive");
+			warehouse.recieveProduct(productName, Integer.parseInt(productQuantity), reader);
+
+		} else {
+			System.out.println("Couldn't find product");
+
+		}
+	}
 
 	private void recievePayment() {
 		double payment;
@@ -255,6 +270,61 @@ public class Clerkstate extends WarState {
 	}
 
 
+
+	private void makeOrderForClient() {
+		String tempClient;
+		tempClient = getToken("Enter client id to create order for ");
+
+		if (warehouse.searchMembership(tempClient) != null) {
+			processMatch(tempClient);
+		}else{
+			System.out.println("Couldn't find client to associate");
+		}
+	}
+
+	private void processMatch(String tempClient2){
+		String productStringId;
+		Product tempProduct;
+		int tempQuantity;
+		boolean addItemsToOrder;
+		String tempString;
+		Order createdOrder = new Order();
+		Order result;
+		String tempClient = tempClient2;
+		char cont;
+
+		do {
+			productStringId = getToken("Enter First id of product to be added to the list");
+			tempProduct = warehouse.findProduct(productStringId);
+			if (tempProduct != null) {
+
+				tempQuantity = Integer.parseInt(getToken("Enter the quantity of that item: "));
+
+				addItemsToOrder = createdOrder.insertlistedItem(tempProduct, tempQuantity);
+				if (!addItemsToOrder) {
+					System.out.println("Failed to add item to order");
+
+				} else
+					System.out.println("Added Item");
+
+			} else {
+				System.out.println("Could not find item");
+			}
+
+			tempString = getToken("Continue adding items? Y to continue");
+			cont = tempString.charAt(0);
+		} while (cont == 'y' || cont == 'Y');
+
+		System.out.println("Processing order");
+		result = warehouse.processOrder(createdOrder, tempClient);
+
+		if (result == null) {
+			System.out.println("Could not add order");
+		} else {
+			System.out.println("Added product [" + result + "]");
+		}
+
+	}
 
 	private void makeClient() {
 		String clientID = getToken("Please input the client id: ");
