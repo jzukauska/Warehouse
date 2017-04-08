@@ -1,9 +1,9 @@
-//Class by Jacob Zukauska, Josh Wilford, Ryan Shaughnessy 
-
-
-
 import java.io.*;
-
+/**
+ * 
+ * @author Joshua Wilford
+ * @author Jacob Zukauska
+ */
 public class ProductIdServer implements Serializable {
 
 	private static final long serialVersionUID = 1L;

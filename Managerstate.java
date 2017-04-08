@@ -63,13 +63,17 @@ public class Managerstate extends WarState {
 		} while (true);
 	}
 
-	public int getCommand() {
-		int trycount = 0;
+  public void process() {
+    int command;
+    help();
+    
+    while ((command = getCommand()) != EXIT) {
+      switch (command) {
 
 
 		while (!Securitystate.instance().isLocked() ){
 			WarehouseContext.instance().changeState(4);
-			trycount++;
+			
 
 			if (trycount > 5) {
 				System.out.println("Too many tries, logging out");
