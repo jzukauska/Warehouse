@@ -171,7 +171,7 @@ public class Clerkstate extends WarState {
 				showManufacturers();
 				break;
 			case recieveOrder:
-				recieveOrder();
+				WarehouseContext.instance().changeState(6);
 				break;
 			case recievePayment:
 				recievePayment();
@@ -180,7 +180,7 @@ public class Clerkstate extends WarState {
 				showWaitlistedOrders();
 				break;
 			case makeOrderForClient:
-				makeOrderForClient();
+				WarehouseContext.instance().changeState(5);
 				break;
 			case makeClient:
 				makeClient();
@@ -269,62 +269,6 @@ public class Clerkstate extends WarState {
 
 	}
 
-
-
-	private void makeOrderForClient() {
-		String tempClient;
-		tempClient = getToken("Enter client id to create order for ");
-
-		if (warehouse.searchMembership(tempClient) != null) {
-			processMatch(tempClient);
-		}else{
-			System.out.println("Couldn't find client to associate");
-		}
-	}
-
-	private void processMatch(String tempClient2){
-		String productStringId;
-		Product tempProduct;
-		int tempQuantity;
-		boolean addItemsToOrder;
-		String tempString;
-		Order createdOrder = new Order();
-		Order result;
-		String tempClient = tempClient2;
-		char cont;
-
-		do {
-			productStringId = getToken("Enter First id of product to be added to the list");
-			tempProduct = warehouse.findProduct(productStringId);
-			if (tempProduct != null) {
-
-				tempQuantity = Integer.parseInt(getToken("Enter the quantity of that item: "));
-
-				addItemsToOrder = createdOrder.insertlistedItem(tempProduct, tempQuantity);
-				if (!addItemsToOrder) {
-					System.out.println("Failed to add item to order");
-
-				} else
-					System.out.println("Added Item");
-
-			} else {
-				System.out.println("Could not find item");
-			}
-
-			tempString = getToken("Continue adding items? Y to continue");
-			cont = tempString.charAt(0);
-		} while (cont == 'y' || cont == 'Y');
-
-		System.out.println("Processing order");
-		result = warehouse.processOrder(createdOrder, tempClient);
-
-		if (result == null) {
-			System.out.println("Could not add order");
-		} else {
-			System.out.println("Added product [" + result + "]");
-		}
-
-	}
 
 	private void makeClient() {
 		String clientID = getToken("Please input the client id: ");
