@@ -109,8 +109,6 @@ public class Managerstate extends WarState {
     int command;
     help();
     
-  
-    
     while ((command = getCommand()) != EXIT) {
       switch (command) {
 
