@@ -1,3 +1,5 @@
+
+
 import java.util.*;
 
 import java.text.*;
@@ -85,8 +87,8 @@ public class WarehouseContext {
     states[2]=  Loginstate.instance();
     states[3] = Managerstate.instance();
     states[4] = Securitystate.instance();
-    states[5] = OrderState.instance();
-    states[6] = ReceiveOrderState.instance();
+   // states[5] = Orderstate.instance();
+   // states[6] = Recievestate.instance();
 
     nextState = new int[7][7];
     for (int i = 0; i < nextState.length; i++) {

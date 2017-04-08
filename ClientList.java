@@ -1,13 +1,14 @@
+//Class by Jacob Zukauska, Josh Wilford, Ryan Shaughnessy 
+
+
+
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
-/**
- * @author Joshua Wilford
- * @author Jacob Zukauska
- */
+
 
 public class ClientList implements Serializable {
 	private static final long serialVersionUID = 1L;
