@@ -2,6 +2,7 @@
 
 import java.util.*;
 
+
 import javax.swing.AbstractButton;
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -20,8 +21,11 @@ public class Loginstate extends WarState{
   private BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));  
   private WarehouseContext context;
   private static Loginstate instance;
+  
+  //gui
   private JFrame frame;
   private AbstractButton userButton, clerkButton, managerButton, logoutButton;
+  //
   private Loginstate() {
       super();
       
@@ -63,7 +67,7 @@ public class Loginstate extends WarState{
     return instance;
   }
 
-  public int getCommand() {
+  /*public int getCommand() {
     do {
       try {
         int value = Integer.parseInt(getToken("Enter command:" ));
@@ -74,7 +78,7 @@ public class Loginstate extends WarState{
         System.out.println("Enter a number");
       }
     } while (true);
-  }
+  }*/
 
   public String getToken(String prompt) {
     do {
@@ -105,7 +109,8 @@ public class Loginstate extends WarState{
   }
 
   private void user(){
-    String userID = JOptionPane.showInputDialog("Please input the user id: ");
+	  
+    String userID = Utility.getToken("Please input user id");
     if (Warehouse.instance().searchMembership(userID) != null){
       (WarehouseContext.instance()).setLogin(WarehouseContext.IsClient);
       (WarehouseContext.instance()).setUser(userID);      
@@ -120,7 +125,7 @@ public class Loginstate extends WarState{
 	    (WarehouseContext.instance()).changeState(3);
   }
 
-  public void process() {
+  /*public void process() {
     int command;
     System.out.println("Input: \n0 to login as Clerk\n"+ 
                         "1 to login as user\n" +
@@ -146,9 +151,9 @@ public class Loginstate extends WarState{
               "3 to login as manager"); 
     }
     (WarehouseContext.instance()).changeState(2);
-  }
+  }*/
   
-  public void showGui(){
+  private void showGui(){
 	  
 	  frame = WarehouseContext.instance().getFrame();
 	   frame.getContentPane().removeAll();
