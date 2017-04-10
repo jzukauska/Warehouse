@@ -2,7 +2,11 @@
 
 import java.util.*;
 
+import javax.swing.JFrame;
+
 import java.text.*;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.io.*;
 public class WarehouseContext {
   
@@ -13,12 +17,15 @@ public class WarehouseContext {
   private String userID;
   private BufferedReader reader = new BufferedReader(new 
                                       InputStreamReader(System.in));
+  
+  private static JFrame WarFrame; 
   public static final int IsClerk = 0;
   public static final int IsClient = 1;
   public static final int IsManager = 3;
   private WarState[] states;
   private int[][] nextState;
-
+  public JFrame getFrame()
+  { return WarFrame;}
   public String getToken(String prompt) {
     do {
       try {
@@ -107,6 +114,12 @@ public class WarehouseContext {
     
     nextState[4][3] = 3; 
     currentState = 2;
+    
+    WarFrame = new JFrame("Warehouse GUI");
+    WarFrame.addWindowListener(new WindowAdapter()
+       {public void windowClosing(WindowEvent e){System.exit(0);}});
+    WarFrame.setSize(400,400);
+    WarFrame.setLocation(400, 400);
   }
 
   public void changeState(int transition)

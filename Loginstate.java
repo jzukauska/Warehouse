@@ -2,11 +2,16 @@
 
 import java.util.*;
 
-
-
+import javax.swing.AbstractButton;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 
 import java.text.*;
+import java.awt.FlowLayout;
 import java.io.*;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 public class Loginstate extends WarState{
   private static final int CLERK_LOGIN = 0;
   private static final int USER_LOGIN = 1;
@@ -15,10 +20,39 @@ public class Loginstate extends WarState{
   private BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));  
   private WarehouseContext context;
   private static Loginstate instance;
-  
-  
+  private JFrame frame;
+  private AbstractButton userButton, clerkButton, managerButton, logoutButton;
   private Loginstate() {
       super();
+      
+      userButton = new JButton("User");
+      userButton.addActionListener(new ActionListener() {
+      	public void actionPerformed(ActionEvent e) {
+      		user();
+      		
+      	}
+      });
+      clerkButton = new JButton("Clerk");
+      clerkButton.addActionListener(new ActionListener() {
+        	public void actionPerformed(ActionEvent e) {
+        		
+        		clerk();
+        	}
+        });
+      logoutButton = new JButton("Logout");
+      logoutButton.addActionListener(new ActionListener() {
+        	public void actionPerformed(ActionEvent e) {
+        		(WarehouseContext.instance()).changeState(2);
+        	}
+        });
+      managerButton = new JButton("Manager");
+      managerButton.addActionListener(new ActionListener() {
+        	public void actionPerformed(ActionEvent e) {
+        		manager();
+        		
+        	}
+        });
+    
      // context = LibContext.instance();
   }
 
@@ -71,7 +105,7 @@ public class Loginstate extends WarState{
   }
 
   private void user(){
-    String userID = getToken("Please input the user id: ");
+    String userID = JOptionPane.showInputDialog("Please input the user id: ");
     if (Warehouse.instance().searchMembership(userID) != null){
       (WarehouseContext.instance()).setLogin(WarehouseContext.IsClient);
       (WarehouseContext.instance()).setUser(userID);      
@@ -113,8 +147,24 @@ public class Loginstate extends WarState{
     }
     (WarehouseContext.instance()).changeState(2);
   }
+  
+  public void showGui(){
+	  
+	  frame = WarehouseContext.instance().getFrame();
+	   frame.getContentPane().removeAll();
+	   frame.getContentPane().setLayout(new FlowLayout());
+	   frame.getContentPane().add(this.userButton);
+	   frame.getContentPane().add(this.clerkButton);
+	   frame.getContentPane().add(this.managerButton);
+	   frame.getContentPane().add(this.logoutButton);
+	   frame.setVisible(true);
+	   frame.paint(frame.getGraphics()); 
+  }
 
   public void run() {
-    process();
+	  //commented using gui instead
+   // process();
+	  showGui();
+	  
   }
 }
