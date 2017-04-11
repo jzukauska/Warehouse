@@ -3,6 +3,7 @@
 import java.util.*;
 
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 
 import java.text.*;
 import java.awt.event.WindowAdapter;
@@ -24,6 +25,8 @@ public class WarehouseContext {
   public static final int IsManager = 3;
   private WarState[] states;
   private int[][] nextState;
+  
+  
   public JFrame getFrame()
   { return WarFrame;}
   public String getToken(String prompt) {
@@ -105,14 +108,15 @@ public class WarehouseContext {
 		
 	}
     
-    nextState[0][0] = 2;nextState[0][1] = 1;nextState[0][2] = -2;nextState[0][3] = 3;nextState[0][5] = 5;nextState[0][6] = 6;
+    nextState[0][0] = 2;nextState[0][1] = 1;nextState[0][2] = -2;nextState[0][3] = 3;nextState[0][4] = 4;nextState[0][5] = 5;nextState[0][6] = 6;
     nextState[1][0] = 2;nextState[1][1] = 0;nextState[1][2] = -2;nextState[1][3] = 3;
     nextState[2][0] = 0;nextState[2][1] = 1;nextState[2][2] = -1;nextState[2][3] = 3;
     nextState[3][0] = 0;nextState[3][1] = -2;nextState[3][2] = 2;nextState[3][3] = -1;nextState[3][4] = 4;    
     nextState[5][0] = 0;
     nextState[6][0] = 0;//
     
-    nextState[4][3] = 3; 
+    nextState[4][3] = 3; nextState[4][0]= 0;
+    
     currentState = 2;
     
     WarFrame = new JFrame("Warehouse GUI");
@@ -120,6 +124,13 @@ public class WarehouseContext {
        {public void windowClosing(WindowEvent e){System.exit(0);}});
     WarFrame.setSize(400,400);
     WarFrame.setLocation(400, 400);
+    WarFrame.addWindowListener(new WindowAdapter(){
+        public void windowClosing(WindowEvent e){
+            int i=JOptionPane.showConfirmDialog(null, "Close app?");
+            if(i==0)
+                System.exit(0);
+        }
+    });
   }
 
   public void changeState(int transition)

@@ -21,6 +21,7 @@ public class Utility {
 			
 		}
 	
+	
 	public static void collectFrame(JFrame frame){
 		frame = WarehouseContext.instance().getFrame();
 		Component[] components = frame.getContentPane().getComponents();

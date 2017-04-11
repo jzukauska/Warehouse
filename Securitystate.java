@@ -43,16 +43,31 @@ public class Securitystate extends WarState{
 	public void process() {
 	    String userName = "";
 	    String password = "" ;
-	    System.out.println("As long as the input is not null you can log in");
-	    userName = getToken("Please input manager user name (anything works)");
-	    password = getToken("Enter the manager password (anything works)");
-	   
-	    if (userName != "" && password != "") {
-			loginSuccess = true;
-		}
-
 	    
-	    (WarehouseContext.instance()).changeState(3);
+	    if(WarehouseContext.instance().getLogin() == 3 ){
+
+	    userName = Utility.getToken("Please input manager user name (manager)");
+	    password = Utility.getToken("Enter the manager password (manager)");
+	   System.out.println(userName);
+	   System.out.println(password);
+	    	if (userName == "manager" && password == "manager") {
+	    		loginSuccess = true;
+	    	}
+	    	(WarehouseContext.instance()).changeState(3);
+	    }
+	    
+	    if(WarehouseContext.instance().getLogin() == 0 ){
+		    System.out.println("As long as the input is not null you can log in");
+		    userName = Utility.getToken("Please input manager user name (anything works)");
+		    password = Utility.getToken("Enter the clerk password (anything works)");
+		    System.out.println(userName);
+			   System.out.println(password);
+		    	if (userName.equals("salesclerk") && password.equals("salesclerk")) {
+		    		loginSuccess = true;
+		    	}
+		    	WarehouseContext.instance().changeState(0);
+		    }
+	    
 	  }
 	  public boolean isLocked(){
 		  return this.loginSuccess;		
@@ -66,5 +81,6 @@ public class Securitystate extends WarState{
 	  }
 	  public void run() {
 	    process();
+	    
 	  }
 }

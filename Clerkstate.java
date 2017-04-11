@@ -23,8 +23,7 @@ public class Clerkstate extends WarState {
 	  //
 	  private AbstractButton	
 	      addClient		
-		, addProducts   
-			                          
+		, addProducts  		                          
 		, showClients     
 		, showProducts    
 		, showManufacturers                          
@@ -35,8 +34,6 @@ public class Clerkstate extends WarState {
 		, makeClient    
 		, loadDatabase 
 		, logout;
-	 
-	  
 	 
 	  
 	 
@@ -343,6 +340,16 @@ public class Clerkstate extends WarState {
 
 	public void run() {
 		//process();
+		
+		while (!Securitystate.instance().isLocked()){
+			System.out.println(!Securitystate.instance().isLocked());
+			WarehouseContext.instance().changeState(4);
+		}
+		
+		if(!Securitystate.instance().isLocked()){
+		Securitystate.instance().reLock();
+		}
+		System.out.println(!Securitystate.instance().isLocked());
 		frame = WarehouseContext.instance().getFrame();
 		   frame.getContentPane().removeAll();
 		   frame.getContentPane().setLayout(new FlowLayout());
