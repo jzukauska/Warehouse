@@ -312,6 +312,15 @@ public class Managerstate extends WarState {
 
 			public void run() {
 				//process();
+				while (!Securitystate.instance().isLocked()){
+					//System.out.println(!Securitystate.instance().isLocked());
+					WarehouseContext.instance().changeState(4);
+				}
+				
+				if(!Securitystate.instance().isLocked()){
+				Securitystate.instance().reLock();
+				}
+				
 				frame = WarehouseContext.instance().getFrame();
 				   frame.getContentPane().removeAll();
 				   frame.getContentPane().setLayout(new FlowLayout());

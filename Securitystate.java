@@ -59,8 +59,8 @@ public class Securitystate extends WarState{
 		    
 		    userName = Utility.getToken("Please input manager user name (salesclerk)");
 		    password = Utility.getToken("Enter the clerk password (salesclerk)");
-		    System.out.println(userName);
-			   System.out.println(password);
+		  //  System.out.println(userName);
+			//   System.out.println(password);
 		    	if (userName.equals("salesclerk") && password.equals("salesclerk")) {
 		    		loginSuccess = true;
 		    	}

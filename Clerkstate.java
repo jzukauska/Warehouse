@@ -342,7 +342,7 @@ public class Clerkstate extends WarState {
 		//process();
 		
 		while (!Securitystate.instance().isLocked()){
-			System.out.println(!Securitystate.instance().isLocked());
+			//System.out.println(!Securitystate.instance().isLocked());
 			WarehouseContext.instance().changeState(4);
 		}
 		
