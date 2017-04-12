@@ -48,18 +48,17 @@ public class Securitystate extends WarState{
 
 	    userName = Utility.getToken("Please input manager user name (manager)");
 	    password = Utility.getToken("Enter the manager password (manager)");
-	   System.out.println(userName);
-	   System.out.println(password);
-	    	if (userName == "manager" && password == "manager") {
+	  
+	    	if (userName.equals("manager") && password.equals("manager")) {
 	    		loginSuccess = true;
 	    	}
 	    	(WarehouseContext.instance()).changeState(3);
 	    }
 	    
 	    if(WarehouseContext.instance().getLogin() == 0 ){
-		    System.out.println("As long as the input is not null you can log in");
-		    userName = Utility.getToken("Please input manager user name (anything works)");
-		    password = Utility.getToken("Enter the clerk password (anything works)");
+		    
+		    userName = Utility.getToken("Please input manager user name (salesclerk)");
+		    password = Utility.getToken("Enter the clerk password (salesclerk)");
 		    System.out.println(userName);
 			   System.out.println(password);
 		    	if (userName.equals("salesclerk") && password.equals("salesclerk")) {

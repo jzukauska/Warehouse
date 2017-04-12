@@ -44,11 +44,11 @@ public class OrderState extends WarState{
 		char cont;
 
 		do {
-			productStringId = getToken("Enter First id of product to be added to the list");
+			productStringId = Utility.getToken("Enter First id of product to be added to the list");
 			tempProduct = warehouse.findProduct(productStringId);
 			if (tempProduct != null) {
 
-				tempQuantity = Integer.parseInt(getToken("Enter the quantity of that item: "));
+				tempQuantity = Integer.parseInt(Utility.getToken("Enter the quantity of that item: "));
 
 				addItemsToOrder = createdOrder.insertlistedItem(tempProduct, tempQuantity);
 				if (!addItemsToOrder) {
@@ -61,7 +61,7 @@ public class OrderState extends WarState{
 				System.out.println("Could not find item");
 			}
 
-			tempString = getToken("Continue adding items? Y to continue");
+			tempString = Utility.getToken("Continue adding items? Y to continue");
 			cont = tempString.charAt(0);
 		} while (cont == 'y' || cont == 'Y');
 
@@ -93,7 +93,7 @@ public class OrderState extends WarState{
 	
 	private void makeOrderForClient() {
 		String tempClient;
-		tempClient = getToken("Enter client id to create order for ");
+		tempClient = Utility.getToken("Enter client id to create order for ");
 
 		if (warehouse.searchMembership(tempClient) != null) {
 			processMatch(tempClient);

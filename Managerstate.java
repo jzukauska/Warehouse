@@ -2,25 +2,110 @@
 
 import java.util.*;
 
+import javax.swing.AbstractButton;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+
 import java.text.*;
+import java.awt.Button;
+import java.awt.FlowLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.*;
 public class Managerstate extends WarState {
 	private static Managerstate managerstate;
 	private BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
 	private static Warehouse warehouse;
 
+	private JFrame frame;
+	
+	private AbstractButton
+	                 
+	addManufacturer   ,     
+	associateProdandMan  ,  
+	disassociateProdandMan ,
+	changePrice  ,          
+	makeClerk  ,            
+	 exit ;            
 
-	private static final int EXIT = 0;
+
+	/*private static final int EXIT = 0;
 	private static final int addManufacturer = 3;
 	private static final int associateProdandMan = 5;
 	private static final int disassociateProdandMan = 7;
 	private static final int changePrice = 8;
 	private static final int makeClerk = 10;
-	private static final int HELP = 13;
+	private static final int HELP = 13;*/
 
 
 	private Managerstate() {
 		warehouse = Warehouse.instance();
+		
+		addManufacturer            = new JButton("Add manufacturer"     );     
+		associateProdandMan    = new JButton("Associate Products with manufacturer"  );
+		disassociateProdandMan = new JButton("Disassociate product and manufacturer");
+		changePrice            = new JButton("Change product price"        );          
+		makeClerk              = new JButton(  "Change to clerk menu"          );            
+		 exit                = new JButton("exit"        );
+		 
+		addManufacturer.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				while (!Securitystate.instance().isLocked() ){
+					WarehouseContext.instance().changeState(4);
+				}
+				
+				addManufacturer();
+				Securitystate.instance().reLock();
+			}
+		});
+		associateProdandMan.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				while (!Securitystate.instance().isLocked() ){
+					WarehouseContext.instance().changeState(4);
+				}
+				
+				associateProdandMan();
+				Securitystate.instance().reLock();
+			}
+		});
+		disassociateProdandMan.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				while (!Securitystate.instance().isLocked() ){
+					WarehouseContext.instance().changeState(4);
+				}
+				
+				disassociateProdandMan();
+				Securitystate.instance().reLock();
+			}
+		});
+		changePrice.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				while (!Securitystate.instance().isLocked() ){
+					WarehouseContext.instance().changeState(4);
+				}
+				
+				changePrice();
+				Securitystate.instance().reLock();
+			}
+		});
+		makeClerk.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				while (!Securitystate.instance().isLocked() ){
+					WarehouseContext.instance().changeState(4);
+				}
+				makeClerk();
+				Securitystate.instance().reLock();
+			}
+		});
+		exit.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				
+				logout();
+			}
+		});
 	}
 
 	public static Managerstate instance() {
@@ -63,7 +148,7 @@ public class Managerstate extends WarState {
 		} while (true);
 	}
 
-	public int getCommand() {
+	/*public int getCommand() {
 		int trycount = 0;
 
 
@@ -90,9 +175,9 @@ public class Managerstate extends WarState {
 
 
 		} while (true);
-	}
+	}*/
 
-	public void help() {
+	/*public void help() {
 		System.out.println("Enter a number between 0 and 12 as explained below:");
 		System.out.println(EXIT + " to Exit\n");
 		System.out.println(addManufacturer + " to add a Manufacturer"); 
@@ -101,12 +186,12 @@ public class Managerstate extends WarState {
 		System.out.println(changePrice + "modify a price of a product");  
 		System.out.println(makeClerk + " to change to clerk mode");  
 		System.out.println(HELP + " for help");
-	}
+	}*/
 
 
 
 
-	public void process() {
+	/*public void process() {
 		int command;
 		System.out.println("Please login before making choice");
 		
@@ -137,7 +222,9 @@ public class Managerstate extends WarState {
 				logout();
 			}
 
-			private void makeClerk() {
+			
+*/
+	private void makeClerk() {
 				WarehouseContext.instance().changeState(0);
 			}
 
@@ -157,7 +244,6 @@ public class Managerstate extends WarState {
 
 
 			}
-
 			private void disassociateProdandMan() {
 				String manufacturerId;
 				Manufacturer manufacturer;
@@ -225,7 +311,18 @@ public class Managerstate extends WarState {
 			}
 
 			public void run() {
-				process();
+				//process();
+				frame = WarehouseContext.instance().getFrame();
+				   frame.getContentPane().removeAll();
+				   frame.getContentPane().setLayout(new FlowLayout());
+				   frame.getContentPane().add(this.addManufacturer           );
+				   frame.getContentPane().add(this.associateProdandMan         );
+				   frame.getContentPane().add(this.changePrice         );
+				   frame.getContentPane().add(this.makeClerk);
+				   frame.getContentPane().add(this.exit        );
+			
+				   frame.setVisible(true);
+				   frame.paint(frame.getGraphics()); 
 			}
 
 			public void logout()

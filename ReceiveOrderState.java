@@ -36,10 +36,10 @@ public class ReceiveOrderState extends WarState {
 	
 	private void recieveOrder() {
 		String productName;
-		productName = getToken("Enter Product id to recieve");
+		productName = Utility.getToken("Enter Product id to recieve");
 
 		if (warehouse.findProduct(productName) != null) {
-			String productQuantity = getToken("Enter amount to receive");
+			String productQuantity = Utility.getToken("Enter amount to receive");
 			warehouse.recieveProduct(productName, Integer.parseInt(productQuantity), reader);
 
 		} else {

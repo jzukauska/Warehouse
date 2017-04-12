@@ -87,7 +87,7 @@ public class WarehouseContext {
   { return userID;}
 
   private WarehouseContext() { //constructor
-    System.out.println("In WarehouseContext constructor");
+    //System.out.println("In WarehouseContext constructor");
     retrieve();
     
     // set up the FSM and transition table;
@@ -135,13 +135,13 @@ public class WarehouseContext {
 
   public void changeState(int transition)
   {
-    System.out.println("current state " + currentState + " \n \n ");
+   // System.out.println("current state " + currentState + " \n \n ");
     currentState = nextState[currentState][transition];
     if (currentState == -2) 
       {System.out.println("Error has occurred"); terminate();}
     if (currentState == -1) 
       terminate();
-    System.out.println("current state " + currentState + " \n \n ");
+  //  System.out.println("current state " + currentState + " \n \n ");
     states[currentState].run();
   }
 

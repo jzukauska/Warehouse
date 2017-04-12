@@ -69,7 +69,7 @@ public class Clerkstate extends WarState {
 		//context = LibContext.instance();
 		
 		
-	    addClient        = new JButton("Add client");
+	    addClient             = new JButton("Add client");
 		  addProducts         = new JButton("Add products");
 		  showClients         = new JButton("Show Clients");
 		  showProducts        = new JButton("Show Products");
